@@ -1,4 +1,5 @@
-import React, { useContext, useReducer, useEffect, useRef, useState, createContext } from 'react';
+import React, { useContext, useReducer, useEffect, useRef, useState, createContext, Fragment } from 'react';
+import StoreProvider from './StoreProvider/StoreProvider';
 
 const HOST_API = "http://localhost:8080/api";
 const initialState = {
@@ -151,7 +152,7 @@ const List = () => {
 
 
 
-function reducer(state, action) {
+/*function reducer(state, action) {
   switch (action.type) {
     case 'update-item':
       const todoUpItem = state.todo;
@@ -186,23 +187,24 @@ function reducer(state, action) {
     default:
       return state;
   }
-}
+}*/
 
-const StoreProvider = ({ children }) => {
+/*const StoreProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return <Store.Provider value={{ state, dispatch }}>
     {children}
   </Store.Provider>
 
-}
+}*/
 
 function App() {
-  return <StoreProvider>
+  return <Fragment>
     <h3>To-Do List</h3>
+    <StoreProvider/>
     <Form />
     <List />
-  </StoreProvider>
+  </Fragment>
 }
 
 export default App;
