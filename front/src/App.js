@@ -1,11 +1,7 @@
 import React, { useContext, useReducer, useEffect, useRef, useState, createContext, Fragment } from 'react';
 import StoreProvider from './StoreProvider/StoreProvider';
 
-const HOST_API = "http://localhost:8080/api";
-const initialState = {
-  todo: { list: [], item: {} }
-};
-const Store = createContext(initialState)
+
 
 
 const Form = () => {
@@ -152,7 +148,7 @@ const List = () => {
 
 
 
-/*function reducer(state, action) {
+function reducer(state, action) {
   switch (action.type) {
     case 'update-item':
       const todoUpItem = state.todo;
@@ -187,16 +183,7 @@ const List = () => {
     default:
       return state;
   }
-}*/
-
-/*const StoreProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  return <Store.Provider value={{ state, dispatch }}>
-    {children}
-  </Store.Provider>
-
-}*/
+}
 
 function App() {
   return <Fragment>
