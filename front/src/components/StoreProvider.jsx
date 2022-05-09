@@ -1,5 +1,5 @@
 import React,{createContext,useReducer} from 'react'
-
+import Reducer from './Reducer'
 const HOST_API = "http://localhost:8080/api";
 const initialState = {
   todo: { list: [], item: {} }
@@ -17,4 +17,4 @@ function StoreProvider({children}) {
 
 export default StoreProvider
 
-export {Store, initialState}
+export {Store, initialState,HOST_API}
