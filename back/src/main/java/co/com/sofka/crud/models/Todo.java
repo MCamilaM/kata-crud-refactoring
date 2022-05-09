@@ -10,7 +10,13 @@ import javax.persistence.Table;
 @Entity(name="Todo")
 @Table(name="todo")
 @Data
+/**
+ * @Author: Camila Morales
+ */
 public class Todo {
+    /**
+     * Propiedades
+     */
     @Id
     @GeneratedValue
     private Long id;
@@ -18,6 +24,9 @@ public class Todo {
     private boolean completed;
     private Long groupListId;
 
+    /**
+     *Métodos getters y setters
+     */
     public Long getGroupListId() {
         return groupListId;
     }
