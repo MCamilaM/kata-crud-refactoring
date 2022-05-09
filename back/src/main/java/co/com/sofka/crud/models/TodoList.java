@@ -19,7 +19,7 @@ public class TodoList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
+    private String name;
 
     /**
      * Relación uno a muchos
@@ -43,12 +43,12 @@ public class TodoList {
     /**
      * Métodos getters y setters
      */
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String title) {
+        this.name = title;
     }
 
     public List<Todo> getTodos() {

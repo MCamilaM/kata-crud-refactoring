@@ -14,7 +14,8 @@ const Form = () => {
     const request = {
       name: state.name,
       id: null,
-      completed: false
+      completed: false,
+      groupListId: null  
     };
 
 
