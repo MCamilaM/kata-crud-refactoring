@@ -1,22 +1,24 @@
-import React, { useContext, useEffect } from 'react'
-import { Store ,HOST_API} from './StoreProvider'
-import Form from "./Form";
+import React, { useContext,useEffect } from "react";
+import { HOST_API, Store } from "./StoreProvider";
 
-const CreateList = () => {
-    const { dispatch, state: { todo } } = useContext(Store);
+
+const CreateItem = ({id}) => {
+  
+    const { dispatch, state: { todo }, } = useContext(Store);
     const currentList = todo.list;
+    const watch = currentList.filter((event) => event.id_todoList === id.id_todoList)
   
     useEffect(() => {
-      fetch(HOST_API + "/todolist")
+      fetch(HOST_API + "/todos")
         .then(response => response.json())
         .then((list) => {
-          dispatch({ type: "update-item", list })
+          dispatch({ type: "update-listtodos", list })
         })
     }, [dispatch]);
   
   
     const onDelete = (id) => {
-      fetch(HOST_API + "/" + id + "/todolist", {
+      fetch(HOST_API + "/" + id + "/todo", {
         method: "DELETE"
       }).then((list) => {
         dispatch({ type: "delete-item", id })
@@ -31,7 +33,8 @@ const CreateList = () => {
       const request = {
         name: todo.name,
         id: todo.id,
-        completed: event.target.checked
+        completed: event.target.checked,
+        groupListId: todo.groupListId
       };
       fetch(HOST_API + "/todo", {
         method: "PUT",
@@ -49,7 +52,7 @@ const CreateList = () => {
     const decorationDone = {
       textDecoration: 'line-through'
     };
-    return <div>
+    return (<div>
       <table >
         <thead>
           <tr>
@@ -59,18 +62,18 @@ const CreateList = () => {
           </tr>
         </thead>
         <tbody>
-          {currentList.map((todo) => {
-            return <tr key={todo.id} style={todo.completed ? decorationDone : {}}>
+          {watch.map((todo) => {
+            return (<tr key={todo.id} style={todo.completed ? decorationDone : {}}>
               <td>{todo.id}</td>
               <td>{todo.name}</td>
               <td><input type="checkbox" defaultChecked={todo.completed} onChange={(event) => onChange(event, todo)}></input></td>
               <td><button onClick={() => onDelete(todo.id)}>Eliminar</button></td>
               <td><button onClick={() => onEdit(todo)}>Editar</button></td>
             </tr>
-          })}
+          )})}
         </tbody>
       </table>
     </div>
-  }
+    )}
 
-export default CreateList
+export default CreateItem

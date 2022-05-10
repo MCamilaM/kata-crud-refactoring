@@ -1,16 +1,26 @@
-import React, { useContext, useReducer, useEffect, useRef, useState, createContext, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import StoreProvider from '../src/components/StoreProvider';
-import Form from './components/Form'
-import CreateList from './components/CreateList'
+import FormList from './components/FormList';
+import CreateList from "./components/CreateList"
+
+
 function App() {
-   
+
   return (
-    <StoreProvider>
-        <h1>Dashboard</h1>
-        <Form/>
-        <CreateList/>
-    </StoreProvider>
-  )
+    <Fragment>
+
+      <StoreProvider>
+
+        <FormList/>
+          <div className="row" id="columnaLista">
+            <CreateList/>
+          </div>
+           
+
+          
+      </StoreProvider>
+    </Fragment>
+  );
 }
 
 export default App;

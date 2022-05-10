@@ -1,73 +1,57 @@
-import React, { useContext, useEffect } from 'react'
-import { Store ,HOST_API} from './StoreProvider'
-import Form from "./Form";
+import React, { useContext, useEffect, Fragment} from "react";
+import { HOST_API, Store } from "./StoreProvider";
+import FormItem from "./FormItem";
+import CreateItem from "./CreateItem"
 
 const CreateList = () => {
-    const { dispatch, state: { todo } } = useContext(Store);
-    const currentList = todo.list;
+  const { dispatch, state: { todoList } } = useContext(Store);
+  const lista = todoList.list;
   
-    useEffect(() => {
-      fetch(HOST_API + "/todolist")
-        .then(response => response.json())
-        .then((list) => {
-          dispatch({ type: "update-list", list })
-        })
-    }, [dispatch]);
-  
-  
-    const onDelete = (id) => {
-      fetch(HOST_API + "/" + id + "/todolist", {
-        method: "DELETE"
-      }).then((list) => {
-        dispatch({ type: "delete-list", id })
+
+  useEffect(() => {
+    fetch(HOST_API + "/todolist")
+      .then(response => response.json())
+      .then((list) => {
+        dispatch({ type: "update-list", list })
       })
-    };
-  
-    const onEdit = (todo) => {
-      dispatch({ type: "edit-item", item: todo })
-    };
-  
-    const onChange = (event, todo) => {
-      const request = {
-        name: todo.name,
-        id: todo.id,
-        completed: event.target.checked
-      };
-      fetch(HOST_API + "/todo", {
-        method: "PUT",
-        body: JSON.stringify(request),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(response => response.json())
-        .then((todo) => {
-          dispatch({ type: "update-item", item: todo });
-        });
-    };
-  
-    const decorationDone = {
-      textDecoration: 'line-through'
-    };
-    return <div>
-      <table >
-        <thead>
-          <tr>
-            <td>ID</td>
-            <td>Tarea</td>
-          </tr>
-        </thead>
-        <tbody>
-          {currentList.map((todo) => {
-            return <tr key={todo.id} style={todo.completed ? decorationDone : {}}>
-              <td>{todo.id}</td>
-              <td>{todo.name}</td>
-              <td><button onClick={() => onDelete(todo.id)}>Eliminar</button></td>
-            </tr>
-          })}
-        </tbody>
-      </table>
-    </div>
-  }
+  }, [dispatch]);
+
+
+  const onDelete = (groupListId) => {
+    fetch(HOST_API + "/" + groupListId + "/todolist", {
+      method: "DELETE"
+    }).then((list) => {
+      dispatch({ type: "delete-list", groupListId })
+    })
+    //const remove = document.getElementById("columnaLista")
+    //remove.removeChild(document.getElementById(id_todoList))
+  };
+
+  return lista.map((todoList) => {
+    return (
+      <Fragment key={todoList.groupListId}>
+        <div className="col-md-6 mb-2" id={todoList.groupListId}>
+          <div className="card custom-card">
+            <div className="m-2 rounded bkGrey" key={todoList.groupListId}>
+              <div className="m-2">
+                <h2>{todoList.name}</h2>
+                <button
+                  className="btn btn-outline-danger"
+                  onClick={() => onDelete(todoList.groupListId)}
+                  
+                >
+                  {console.log("estamos aqui "+todoList.groupListId)}
+                  Eliminar Lista
+                </button>
+              </div>
+              <FormItem id={todoList} />
+              <CreateItem id={todoList} />
+            </div>
+          </div>
+        </div>
+      </Fragment>
+    );
+  });
+}
 
 export default CreateList

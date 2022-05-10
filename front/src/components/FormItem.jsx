@@ -1,12 +1,14 @@
-import React, { useContext,useState,useRef} from 'react'
-import CreateList from './CreateList'
-import { Store ,HOST_API} from './StoreProvider'
+import React, { useContext, useRef, useState } from "react";
+import { HOST_API, Store } from "./StoreProvider";
 
-const Form = () => {
+const FormItem = ({id}) => {
+
   const formRef = useRef(null);
   const { dispatch, state: { todo } } = useContext(Store);
-  const item = todo.item;
+  const item = todo.item
   const [state, setState] = useState(item);
+
+  
 
   const onAdd = (event) => {
     event.preventDefault();
@@ -15,7 +17,8 @@ const Form = () => {
       name: state.name,
       id: null,
       completed: false,
-      groupListId: null  
+      id_groupListId: id.groupListId,
+        
     };
 
 
@@ -40,7 +43,8 @@ const Form = () => {
     const request = {
       name: state.name,
       id: item.id,
-      isCompleted: item.isCompleted
+      isCompleted: item.isCompleted,
+      groupListId: id.groupListId
     };
 
 
@@ -59,7 +63,7 @@ const Form = () => {
       });
   }
 
-  return <form ref={formRef}>
+  return (<form ref={formRef}>
     <input
       type="text"
       name="name"
@@ -71,7 +75,7 @@ const Form = () => {
     {item.id && <button onClick={onEdit}>Actualizar</button>}
     {!item.id && <button onClick={onAdd}>Crear</button>}
   </form>
-}
+  )}
 
 
-export default Form
+export default FormItem
