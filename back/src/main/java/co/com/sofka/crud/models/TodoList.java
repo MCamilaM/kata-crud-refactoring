@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name="TodoList")
+@Entity
 @Table(name="todolist")
 @Data
 /**
@@ -18,7 +18,7 @@ public class TodoList {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idTodoList;
     private String name;
 
     /**
@@ -26,38 +26,12 @@ public class TodoList {
      */
     @OneToMany(
             cascade=CascadeType.ALL,
-            fetch = FetchType.EAGER
+            orphanRemoval = true
     )
-    private List<Todo> todos=new ArrayList<>();
+    @JoinColumn(name = "groupListId")
+    private List<Todo> todos;
 
-    /**
-     * Metodo para agregar un todo
-     * @param todo
-     * @return todolist
-     */
-    public TodoList addTodo(Todo todo){
-        this.todos.add(todo);
-        return this;
-    }
 
-    /**
-     * Métodos getters y setters
-     */
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String title) {
-        this.name = title;
-    }
-
-    public List<Todo> getTodos() {
-        return todos;
-    }
-
-    public void setTodos(List<Todo> todos) {
-        this.todos = todos;
-    }
 }
 
 

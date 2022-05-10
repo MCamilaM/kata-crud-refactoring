@@ -18,9 +18,6 @@ public class TodoService {
     @Autowired
     private TodoRepository todoRepository;
 
-    @Autowired
-    private ITodoListRepository iTodoListRepository;
-
 
     /**
      * Método para obtener todos los todos
@@ -35,20 +32,16 @@ public class TodoService {
      * @param todo
      * @return todo
      */
-    public TodoList saveTodo(Todo todo) {
-        TodoList todoList = iTodoListRepository.findById(todo.getGroupListId()).get();
-        todoList.addTodo(todo);
-        todoRepository.save(todo);
-        return iTodoListRepository.save(todoList);
+    public Todo saveTodo(Todo todo) {
+        return todoRepository.save(todo);
     }
-
     /**
      * Método para actualizar un todo
-     * @param note
+     * @param todo
      * @return guarda todo
      */
-    public Todo updateTodo(Todo note) {
-        return todoRepository.save(note);
+    public Todo updateTodo(Todo todo) {
+        return todoRepository.save(todo);
     }
 
     /**
@@ -59,42 +52,11 @@ public class TodoService {
         todoRepository.deleteById(id);
     }
 
-    /**
-     * Método para guardar un TodoList
-     * @param todoList
-     * @return todolist
-     */
-    public TodoList saveTodoList(TodoList todoList) {
-        return iTodoListRepository.save(todoList);
-    }
-
-    /**
-     * Método para actualizar un TodoList
-     * @param todoList
-     * @return todolist
-     */
-    public TodoList updateTodoLists(TodoList todoList) {
-        return iTodoListRepository.save(todoList);
-    }
-
-    /**
-     * Método para eliminar un TodoList
-     * @param id
-     */
-    public void deleteTodoList(Long id) {
-        TodoList todoListToBeDeleted = iTodoListRepository.findById(id).get();
-        if(todoListToBeDeleted.getTodos().size() >= 0){
-            todoListToBeDeleted.getTodos().forEach(todo -> todoRepository.deleteById(todo.getId()));
-        }
-        iTodoListRepository.deleteById(id);
-    }
 
 
-    /**
-     * Método para obtener todos los TodoLists
-     * @return todolist
-     */
-    public List<TodoList> getTodoLists() {
-        return iTodoListRepository.findAll();
-    }
+
+
+
+
+
 }
